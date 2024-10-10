@@ -134,7 +134,7 @@ public class Assignment2
             {
                 if(check <= -2)
                 {
-                    rome = (repeat(check+5, "I")) + rome;
+                    rome = (repeat(check + 5, "I")) + rome;
                 }
                 else if(check <= 0)
                 {
@@ -153,7 +153,7 @@ public class Assignment2
             {
                 if(check <= -2)
                 {
-                    rome = (repeat(check+5, "X")) + rome;
+                    rome = (repeat(check + 5, "X")) + rome;
                 }
                 else if(check <= 0)
                 {
@@ -172,7 +172,7 @@ public class Assignment2
             {
                 if(check <= -2)
                 {
-                    rome = (repeat(check+5, "C")) + rome;
+                    rome = (repeat(check + 5, "C")) + rome;
                 }
                 else if(check <= 0)
                 {
@@ -189,7 +189,7 @@ public class Assignment2
             }
             else if(counter == 3)
             {
-                rome = (repeat(check+5, "M")) + rome;
+                rome = (repeat(check + 5, "M")) + rome;
             }
 
             ++counter;
@@ -360,7 +360,7 @@ public class Assignment2
                 System.out.println("Enter Number(up to 9,999)");
                 int romanNumber = sc.nextInt();
 
-                while(romanNumber > 9999)
+                while(romanNumber > 9999 || romanNumber < 0)
                 {
                     System.out.println("Enter Number(up to 9,999)");
                     romanNumber = sc.nextInt();
