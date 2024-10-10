@@ -360,7 +360,7 @@ public class Assignment2
                 System.out.println("Enter Number(up to 9,999)");
                 int romanNumber = sc.nextInt();
 
-                while(romanNumber > 9999 || romanNumber < 0)
+                while(romanNumber > 9999 || romanNumber < 1)
                 {
                     System.out.println("Enter Number(up to 9,999)");
                     romanNumber = sc.nextInt();

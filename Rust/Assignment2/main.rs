@@ -195,7 +195,7 @@ fn main()
         let mut roman :i32 = input.trim().parse().expect("Invalid input");
         input.clear();
 
-        while roman > 9999 || roman < 0 
+        while roman > 9999 || roman < 1 
         {
             println!("Enter a number up to 9999");
             io::stdin().read_line(&mut input).expect("Failed to read input");
