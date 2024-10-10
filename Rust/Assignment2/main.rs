@@ -1,4 +1,70 @@
 use std::io;
+use rand::Rng;
+// use std::fs::File;
+// use std::io::BufReader;
+// use rodio::{Decoder, OutputStream, source::Source};
+
+struct ArrayTester;
+impl ArrayTester
+{
+    fn get_column(&self, vec : Vec<Vec<i32>>, col : i32) -> Vec<i32>
+    {
+        let mut result : Vec<i32> = vec![];
+
+        for (i, _elem) in vec.clone().into_iter().enumerate()
+        {
+            result.push(vec[i][(col - 1) as usize])
+        }
+
+        return result;
+    }
+
+    fn is_duplicate(&self, vec: Vec<Vec<i32>>, vec2 : Vec<i32>) -> bool
+    {
+        for (i, elem) in vec.clone().into_iter().enumerate()
+        {
+            for j in elem
+            {
+                for (k, _elem) in vec2.clone().into_iter().enumerate()
+                {
+                    if vec[i][j as usize] == vec2[k]
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    fn contains_full(&self, vec: Vec<Vec<i32>>, vec2 : Vec<i32>) -> bool
+    {
+        let mut check : bool = false;
+
+        for (i, elem) in vec.clone().into_iter().enumerate()
+        {
+            for j in elem
+            {
+                if vec[i][j as usize] == vec2[j as usize]
+                {
+                    check = true;
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+
+        if check
+        {
+            return true;
+        }
+
+        return false;
+    }
+}
 
 fn roman_numeral(num : i32) -> String
 {
@@ -6,7 +72,7 @@ fn roman_numeral(num : i32) -> String
     let nums = String::from(num.to_string());
     let mut split_numbers : Vec<i32> = Vec::new();
     let mut count : i32 = 0;
-    let mut check : i32 = 0;
+    let mut check : i32;
 
     for c in nums.chars().rev()
     {
@@ -76,7 +142,7 @@ fn roman_numeral(num : i32) -> String
         }
         else if count == 3
         {
-            rome = format!("{}{}", "M".repeat(((check + 5)).try_into().unwrap()), rome);
+            rome = format!("{}{}", "M".repeat((check + 5).try_into().unwrap()), rome);
         }
         
         count += 1;
@@ -85,10 +151,39 @@ fn roman_numeral(num : i32) -> String
     String::from(rome)
 }
 
+fn guess(mut player : i32, mut comp : i32) -> bool
+{
+    let mut input = String::new();
+    let num = rand::thread_rng().gen_range(0..10);
+    println!("Enter Guess:");
+    io::stdin().read_line(&mut input).expect("Failed to read input");
+    let pguess : i32 = input.trim().parse().expect("Invalid input");
+    input.clear();
+    let cguess : i32 = rand::thread_rng().gen_range(0..10);
+
+    player -= (num - pguess).abs();
+    comp -= (num - cguess).abs();
+
+    println!("Player Guess: {}\nComputer Guess: {}\nSelected Number: {}\nPlayer Points: {}\nComputer Points: {}", pguess, cguess, num, player, comp);
+
+    if comp <= 0
+    {
+        return true;
+    }
+    else if player <= 0
+    {
+        return false;
+    }
+    
+    guess(player, comp);
+    
+    return false;
+}
+
 fn main() 
 {
     let mut input = String::new();
-    println!("1. Roman Numerals");
+    println!("1. Roman Numerals\n2. Guessing Game\n3. Array Tester");
     io::stdin().read_line(&mut input).expect("Failed to read input");
     let choice : i32 = input.trim().parse().expect("Invalid input");
     input.clear();
@@ -109,6 +204,49 @@ fn main()
         }
 
         println!("{}", roman_numeral(roman));
+    }
+    if choice == 2
+    {
+        if guess(7, 7)
+        {
+            // // Get an output stream handle to the default physical sound device
+            // let (_stream, stream_handle) = OutputStream::try_default().unwrap();
+            // // Load a sound from a file, using a path relative to Cargo.toml
+            // let file = BufReader::new(File::open("./tf.wav").unwrap());
+            // // Decode that sound file into a source
+            // let source = Decoder::new(file).unwrap();
+            // // Play the sound directly on the device
+            // stream_handle.play_raw(source.convert_samples());
+
+            // // The sound plays in a separate audio thread,
+            // // so we need to keep the main thread alive while it's playing.
+            // std::thread::sleep(std::time::Duration::from_secs(7));
+        }
+        else
+        {
+            // // Get an output stream handle to the default physical sound device
+            // let (_stream, stream_handle) = OutputStream::try_default().unwrap();
+            // // Load a sound from a file, using a path relative to Cargo.toml
+            // let file = BufReader::new(File::open("./victorymale-version-230553.wav").unwrap());
+            // // Decode that sound file into a source
+            // let source = Decoder::new(file).unwrap();
+            // // Play the sound directly on the device
+            // stream_handle.play_raw(source.convert_samples());
+
+            // // The sound plays in a separate audio thread,
+            // // so we need to keep the main thread alive while it's playing.
+            // std::thread::sleep(std::time::Duration::from_secs(2));
+        }
+    }
+    if choice == 3
+    {
+        let vec2 : Vec<Vec<i32>> = vec![vec![0,1,2], vec![3,4,5], vec![6,7,8], vec![9,5,3]];
+        let vec : Vec<i32> = vec![1,2,0];
+        let atest : ArrayTester = ArrayTester;
+
+        println!("Column 3 is {:?}", atest.get_column(vec2.clone(), 3));
+        println!("Has duplicate: {:?}", atest.is_duplicate(vec2.clone(), vec.clone()));
+        println!("Contains full: {:?}", atest.contains_full(vec2, vec));
     }
     else 
     {
