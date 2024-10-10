@@ -287,60 +287,61 @@ public class Assignment2
     static String seven(String word)
     {
         String result = "";
+        int wordLen = word.length();
 
-        for (int i = 0; i < word.length(); ++i)
+        for (int i = 0; i < wordLen; ++i)
         {
-            if (i == (word.length() / 2))
+            if (i == (wordLen / 2))
             {
                 result += "\n" + word;
             }
             else
             {
-                result += "\n" + repeat(word.length() / 2, " ") + word.charAt(i);
+                result += "\n" + repeat(wordLen / 2, " ") + word.charAt(i);
             }
         }
 
         result += "\n";
 
-        for (int i = 0; i < word.length(); ++i)
+        for (int i = 0; i < wordLen; ++i)
         {
-            if (i == (word.length() / 2))
+            if (i == (wordLen / 2))
             {
-                result += "\n" + repeat(word.length() / 2, " ") + word.charAt(i);
+                result += "\n" + repeat(wordLen / 2, " ") + word.charAt(i);
             }
-            else if (i < (word.length() / 2))
+            else if (i < (wordLen / 2))
             {
-                result += "\n" + repeat(i, " ") + word.charAt(i) + repeat(word.length() - (2 * i) - 2, " ") + word.charAt(word.length() - (i + 1));
+                result += "\n" + repeat(i, " ") + word.charAt(i) + repeat(wordLen - (2 * i) - 2, " ") + word.charAt(wordLen - (i + 1));
             }
-            else if (i > (word.length() / 2))
+            else if (i > (wordLen / 2))
             {
-                result += "\n" + repeat(word.length() - i - 1, " ") + reverse(word.charAt(i) + repeat(i - (word.length() - i), " ") + word.charAt(word.length() - (i + 1)));
+                result += "\n" + repeat(wordLen - i - 1, " ") + reverse(word.charAt(i) + repeat(i - (wordLen - i), " ") + word.charAt(wordLen - (i + 1)));
             }
         }
 
         result += "\n";
 
-        for (int i = 0; i <= (word.length() * 2); ++i)
+        for (int i = 0; i <= (wordLen * 2); ++i)
         {
-            if (i <= word.length())
+            if (i <= wordLen)
             {
-                result += "\n" + word.substring((i * -1) + word.length(), word.length());
+                result += "\n" + word.substring((i * -1) + wordLen, wordLen);
             }
             else
             {
-                result += "\n" + repeat(i - word.length(), " ") + word.substring(0, word.length() - (i - word.length()) + 1);
+                result += "\n" + repeat(i - wordLen, " ") + word.substring(0, wordLen - (i - wordLen) + 1);
             }
         }
 
-        for (int i = 0; i <= (word.length() * 2); ++i)
+        for (int i = 0; i <= (wordLen * 2); ++i)
         {
-            if (i <= word.length())
+            if (i <= wordLen)
             {
-                result += "\n" + repeat(word.length() - i + 1, " ") + word.substring(0, i);
+                result += "\n" + repeat(wordLen - i + 1, " ") + word.substring(0, i);
             }
             else
             {
-                result += "\n" + word.substring(Math.abs(i - word.length()) - 1, word.length());
+                result += "\n" + word.substring(Math.abs(i - wordLen) - 1, wordLen);
             }
         }
 
