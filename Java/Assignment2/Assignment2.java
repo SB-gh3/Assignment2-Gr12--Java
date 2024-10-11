@@ -134,62 +134,62 @@ public class Assignment2
             {
                 if(check <= -2)
                 {
-                    rome = (repeat(check + 5, "I")) + rome;
+                    rome = repeat(check + 5, "I") + rome;
                 }
                 else if(check <= 0)
                 {
-                    rome = (repeat(Math.abs(check), "I")) + "V" + rome;
+                    rome = repeat(Math.abs(check), "I") + "V" + rome;
                 }
                 else if(check <= 3)
                 {
-                    rome = "V" + (repeat(check, "I")) + rome;
+                    rome = "V" + repeat(check, "I") + rome;
                 }
                 else if(check == 4)
                 {
-                    rome = (repeat(check - 3, "I")) + "X" + rome;
+                    rome = repeat(check - 3, "I") + "X" + rome;
                 }
             }
             else if(counter == 1)
             {
                 if(check <= -2)
                 {
-                    rome = (repeat(check + 5, "X")) + rome;
+                    rome = repeat(check + 5, "X") + rome;
                 }
                 else if(check <= 0)
                 {
-                    rome = (repeat(Math.abs(check), "X")) + "L" + rome;
+                    rome = repeat(Math.abs(check), "X") + "L" + rome;
                 }
                 else if(check <= 3)
                 {
-                    rome = "L" + (repeat(check, "X")) + rome;
+                    rome = "L" + repeat(check, "X") + rome;
                 }
                 else if(check == 4)
                 {
-                    rome = (repeat(check - 3, "X")) + "C" + rome;
+                    rome = repeat(check - 3, "X") + "C" + rome;
                 }
             }
             else if(counter == 2)
             {
                 if(check <= -2)
                 {
-                    rome = (repeat(check + 5, "C")) + rome;
+                    rome = repeat(check + 5, "C") + rome;
                 }
                 else if(check <= 0)
                 {
-                    rome = (repeat(Math.abs(check), "C")) + "D" + rome;
+                    rome = repeat(Math.abs(check), "C") + "D" + rome;
                 }
                 else if(check <= 3)
                 {
-                    rome = "D" + (repeat(check, "C")) + rome;
+                    rome = "D" + repeat(check, "C") + rome;
                 }
                 else if(check == 4)
                 {
-                    rome = (repeat(check - 3, "C")) + "M" + rome;
+                    rome = repeat(check - 3, "C") + "M" + rome;
                 }
             }
             else if(counter == 3)
             {
-                rome = (repeat(check + 5, "M")) + rome;
+                rome = repeat(check + 5, "M") + rome;
             }
 
             ++counter;

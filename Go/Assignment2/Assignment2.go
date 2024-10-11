@@ -3,25 +3,79 @@ package main
 import(
 	"strconv"
 	"fmt"
+	"strings"
+	"math"
+	"math/rand/v2"
+	"log"
+	"os"
+	"time"
+
+	"github.com/faiface/beep"
+	"github.com/faiface/beep/mp3"
+	"github.com/faiface/beep/speaker"
+	"C"
+	"unsafe"
 )
+
+func reverse(s string) string { 
+    rns := []rune(s) // convert to rune 
+    for i, j := 0, len(rns)-1; i < j; i, j = i+1, j-1 { 
+  
+        // swap the letters of the string, 
+        // like first with last and so on. 
+        rns[i], rns[j] = rns[j], rns[i] 
+    } 
+  
+    // return the reversed string. 
+    return string(rns) 
+} 
 
 func romanNumeral(num int) string {
 	var rome string
 	nums := strconv.Itoa(num)
 	splitNums := []int{}
-	count, check := 0, 0
+	count, check := 0, 0.0
+	nums = reverse(nums)
 
 	for i := 0; i < len(nums); i++ {
 		splitNums = append(splitNums, int(nums[i] - '0')) // May not work
 	}
 
 	for i := 0; i < len(splitNums); i++ {
-		check = splitNums[i] - 5
+		check = float64(splitNums[i]) - 5.0
 
 		if count == 0{
 			if check <= -2{
-
+				rome = strings.Repeat("I", int(check + 5.0)) + rome;
+			} else if check <= 0{
+				rome = strings.Repeat("I", int(math.Abs(check))) + "V" + rome;
+			} else if check <= 3{
+				rome = "V" + strings.Repeat("I", int(check)) + rome;
+			} else if check == 4{
+				rome = strings.Repeat("I", int(check - 3.0)) + "X" + rome;
 			}
+		}else if count == 1{
+			if check <= -2{
+				rome = strings.Repeat("X", int(check + 5.0)) + rome;
+			} else if check <= 0{
+				rome = strings.Repeat("X", int(math.Abs(check))) + "L" + rome;
+			} else if check <= 3{
+				rome = "L" + strings.Repeat("X", int(check)) + rome;
+			} else if check == 4{
+				rome = strings.Repeat("X", int(check - 3.0)) + "C" + rome;
+			}
+		}else if count == 2{
+			if check <= -2{
+				rome = strings.Repeat("C", int(check + 5.0)) + rome;
+			} else if check <= 0{
+				rome = strings.Repeat("C", int(math.Abs(check))) + "D" + rome;
+			} else if check <= 3{
+				rome = "D" + strings.Repeat("C", int(check)) + rome;
+			} else if check == 4{
+				rome = strings.Repeat("C", int(check - 3.0)) + "M" + rome;
+			}
+		}else if count == 3{
+			rome = strings.Repeat("M", int(check + 5.0)) + rome;
 		}
 
 		count++;
@@ -30,10 +84,33 @@ func romanNumeral(num int) string {
 	return rome
 }
 
+func guessingGame(player int, comp int) bool{
+	num := rand.IntN(10)
+	cguess := rand.IntN(10)
+	pguess := 0
+	fmt.Println("Enter your guess: ")
+	fmt.Scan(&pguess)
+
+	player -= int(math.Abs(float64(num - pguess)));
+    comp -= int(math.Abs(float64(num - cguess)));
+
+	fmt.Println("Player Guess: ", pguess, "\nComputer Guess: ", cguess, "\nActual Number: ", num, "\n\nPlayer points: ", player, "\nComputer points: ", comp)
+
+	if comp <= 0{
+		return true;
+	}else if player <= 0{
+		return false;
+	}
+
+    guessingGame(player, comp);
+
+	return true;
+}
+
 // Go doesn't allow curly braces formatted other than this, why?????
 func main() {
 	choice := 0
-    fmt.Println("1. Roman Numerals\n2. Harmonic Mean\n3. Secret Alphabet\n4. Reaction Time Test\n5. Guessing Game\n6. Array Stuff\n7. Four Patterns")
+    fmt.Println("1. Roman Numerals\n2. Guessing Game\n3. Array Tester")
 	fmt.Scan(&choice)
 	
 	switch choice {
@@ -49,7 +126,47 @@ func main() {
 
 			fmt.Println(romanNumeral(roman))
 		case 2:
+			if guessingGame(7, 7){
+				f, err := os.Open("tf.mp3")
+				if err != nil {
+					log.Fatal(err)
+				}
 
+				streamer, format, err := mp3.Decode(f)
+				if err != nil {
+					log.Fatal(err)
+				}
+				defer streamer.Close()
+
+				speaker.Init(format.SampleRate, format.SampleRate.N(time.Second/10))
+
+				done := make(chan bool)
+				speaker.Play(beep.Seq(streamer, beep.Callback(func() {
+					done <- true
+				})))
+
+				<-done
+			} else{
+				f, err := os.Open("victorymale-version-230553.mp3")
+				if err != nil {
+					log.Fatal(err)
+				}
+
+				streamer, format, err := mp3.Decode(f)
+				if err != nil {
+					log.Fatal(err)
+				}
+				defer streamer.Close()
+
+				speaker.Init(format.SampleRate, format.SampleRate.N(time.Second/10))
+
+				done := make(chan bool)
+				speaker.Play(beep.Seq(streamer, beep.Callback(func() {
+					done <- true
+				})))
+
+				<-done
+			} 
 		default:
 			fmt.Println("Invalid input")
 	}
