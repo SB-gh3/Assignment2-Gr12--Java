@@ -6,16 +6,70 @@ import(
 	"strings"
 	"math"
 	"math/rand/v2"
-	"log"
-	"os"
-	"time"
+	// "log"
+	// "os"
+	// "time"
 
-	"github.com/faiface/beep"
-	"github.com/faiface/beep/mp3"
-	"github.com/faiface/beep/speaker"
-	"C"
-	"unsafe"
+	// "github.com/faiface/beep"
+	// "github.com/faiface/beep/mp3"
+	// "github.com/faiface/beep/speaker"
 )
+
+type ArrayTester struct{
+	vec2 [][]int
+	vec []int
+	col int
+}
+
+func (arrTest *ArrayTester) setStruct(vec2 [][]int, vec []int, col int) {
+	arrTest.vec2 = vec2
+	arrTest.vec = vec
+	arrTest.col = col
+}
+
+func (arrTest ArrayTester) getColumn() []int{
+	result := []int{}
+
+	for i := 0; i < len(arrTest.vec2); i++{
+		result = append(result, arrTest.vec2[i][arrTest.col - 1]);
+	}
+
+	return result;
+}
+
+func (arrTest ArrayTester) isDuplicate() bool{
+	for i := 0; i < len(arrTest.vec2); i++{
+		for j := 0; j < len(arrTest.vec2[i]); j++{
+			for k := 0; k < len(arrTest.vec); k++{
+				if arrTest.vec2[i][j] == arrTest.vec[k]{
+					return true;
+				}
+			}
+		}
+	}
+
+	return false;
+}
+
+func (arrTest ArrayTester) constainsFull() bool{
+	check := false
+
+        for i := 0; i < len(arrTest.vec2); i++{
+            for j := 0; j < len(arrTest.vec2[i]); j++{
+                if arrTest.vec2[i][j] == arrTest.vec[j]{
+                    check = true;
+                }else{
+                    break;
+                }
+            }
+        }
+
+        if check{
+            return true;
+        }else{
+			return false;
+		}
+}
 
 func reverse(s string) string { 
     rns := []rune(s) // convert to rune 
@@ -125,48 +179,61 @@ func main() {
 			}
 
 			fmt.Println(romanNumeral(roman))
+
 		case 2:
 			if guessingGame(7, 7){
-				f, err := os.Open("tf.mp3")
-				if err != nil {
-					log.Fatal(err)
-				}
+				// Enable later
+				// f, err := os.Open("tf.mp3")
+				// if err != nil {
+				// 	log.Fatal(err)
+				// }
 
-				streamer, format, err := mp3.Decode(f)
-				if err != nil {
-					log.Fatal(err)
-				}
-				defer streamer.Close()
+				// streamer, format, err := mp3.Decode(f)
+				// if err != nil {
+				// 	log.Fatal(err)
+				// }
+				// defer streamer.Close()
 
-				speaker.Init(format.SampleRate, format.SampleRate.N(time.Second/10))
+				// speaker.Init(format.SampleRate, format.SampleRate.N(time.Second/10))
 
-				done := make(chan bool)
-				speaker.Play(beep.Seq(streamer, beep.Callback(func() {
-					done <- true
-				})))
+				// done := make(chan bool)
+				// speaker.Play(beep.Seq(streamer, beep.Callback(func() {
+				// 	done <- true
+				// })))
 
-				<-done
+				// <-done
 			} else{
-				f, err := os.Open("victorymale-version-230553.mp3")
-				if err != nil {
-					log.Fatal(err)
-				}
+				// f, err := os.Open("victorymale-version-230553.mp3")
+				// if err != nil {
+				// 	log.Fatal(err)
+				// }
 
-				streamer, format, err := mp3.Decode(f)
-				if err != nil {
-					log.Fatal(err)
-				}
-				defer streamer.Close()
+				// streamer, format, err := mp3.Decode(f)
+				// if err != nil {
+				// 	log.Fatal(err)
+				// }
+				// defer streamer.Close()
 
-				speaker.Init(format.SampleRate, format.SampleRate.N(time.Second/10))
+				// speaker.Init(format.SampleRate, format.SampleRate.N(time.Second/10))
 
-				done := make(chan bool)
-				speaker.Play(beep.Seq(streamer, beep.Callback(func() {
-					done <- true
-				})))
+				// done := make(chan bool)
+				// speaker.Play(beep.Seq(streamer, beep.Callback(func() {
+				// 	done <- true
+				// })))
 
-				<-done
+				// <-done
 			} 
+
+		case 3:
+			var arrTest ArrayTester
+			vec := []int{1, 2, 0}
+			vec2 := [][]int{{0,1,2}, {3,4,5}, {6,7,8}, {9,5,3}}
+			arrTest.setStruct(vec2, vec, 3)
+
+			fmt.Println(arrTest.getColumn())
+			fmt.Println(arrTest.isDuplicate())
+			fmt.Println(arrTest.constainsFull())
+
 		default:
 			fmt.Println("Invalid input")
 	}
