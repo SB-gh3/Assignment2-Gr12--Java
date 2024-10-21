@@ -333,6 +333,8 @@ public class Assignment2
             }
         }
 
+        result += "\n";
+
         for (int i = 0; i <= (wordLen * 2); ++i)
         {
             if (i <= wordLen)

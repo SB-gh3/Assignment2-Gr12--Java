@@ -6,13 +6,11 @@ import(
 	"strings"
 	"math"
 	"math/rand/v2"
-	// "log"
-	// "os"
-	// "time"
+	"os"
+    "time"
 
-	// "github.com/faiface/beep"
-	// "github.com/faiface/beep/mp3"
-	// "github.com/faiface/beep/speaker"
+    "github.com/ebitengine/oto/v3"
+    "github.com/hajimehoshi/go-mp3"
 )
 
 type ArrayTester struct{
@@ -182,46 +180,99 @@ func main() {
 
 		case 2:
 			if guessingGame(7, 7){
-				// Enable later
-				// f, err := os.Open("tf.mp3")
-				// if err != nil {
-				// 	log.Fatal(err)
-				// }
+				// Open the file for reading. Do NOT close before you finish playing!
+				file, err := os.Open("./tf.mp3")
+				if err != nil {
+					panic("opening tf.mp3 failed: " + err.Error())
+				}
+			
+				// Decode file. This process is done as the file plays so it won't
+				// load the whole thing into memory.
+				decodedMp3, err := mp3.NewDecoder(file)
+				if err != nil {
+					panic("mp3.NewDecoder failed: " + err.Error())
+				}
+			
+				// Rest is the same...
+				op := &oto.NewContextOptions{}
 
-				// streamer, format, err := mp3.Decode(f)
-				// if err != nil {
-				// 	log.Fatal(err)
-				// }
-				// defer streamer.Close()
-
-				// speaker.Init(format.SampleRate, format.SampleRate.N(time.Second/10))
-
-				// done := make(chan bool)
-				// speaker.Play(beep.Seq(streamer, beep.Callback(func() {
-				// 	done <- true
-				// })))
-
-				// <-done
+				// Usually 44100 or 48000. Other values might cause distortions in Oto
+				op.SampleRate = 44100
+			
+				// Number of channels (aka locations) to play sounds from. Either 1 or 2.
+				// 1 is mono sound, and 2 is stereo (most speakers are stereo). 
+				op.ChannelCount = 2
+			
+				// Format of the source. go-mp3's format is signed 16bit integers.
+				op.Format = oto.FormatSignedInt16LE
+			
+				// Remember that you should **not** create more than one context
+				otoCtx, readyChan, err := oto.NewContext(op)
+				if err != nil {
+					panic("oto.NewContext failed: " + err.Error())
+				}
+				// It might take a bit for the hardware audio devices to be ready, so we wait on the channel.
+				<-readyChan
+			
+				// Create a new 'player' that will handle our sound. Paused by default.
+				player := otoCtx.NewPlayer(decodedMp3)
+				
+				// Play starts playing the sound and returns without waiting for it (Play() is async).
+				player.Play()
+			
+				// We can wait for the sound to finish playing using something like this
+				for player.IsPlaying() {
+					time.Sleep(time.Millisecond)
+				}
+				// Close file only after you finish playing
+				file.Close()
 			} else{
-				// f, err := os.Open("victorymale-version-230553.mp3")
-				// if err != nil {
-				// 	log.Fatal(err)
-				// }
+				// Open the file for reading. Do NOT close before you finish playing!
+				file, err := os.Open("./victorymale-version-230553.mp3.mp3")
+				if err != nil {
+					panic("opening victorymale-version-230553.mp3.mp3 failed: " + err.Error())
+				}
+			
+				// Decode file. This process is done as the file plays so it won't
+				// load the whole thing into memory.
+				decodedMp3, err := mp3.NewDecoder(file)
+				if err != nil {
+					panic("mp3.NewDecoder failed: " + err.Error())
+				}
+			
+				// Rest is the same...
+				op := &oto.NewContextOptions{}
 
-				// streamer, format, err := mp3.Decode(f)
-				// if err != nil {
-				// 	log.Fatal(err)
-				// }
-				// defer streamer.Close()
-
-				// speaker.Init(format.SampleRate, format.SampleRate.N(time.Second/10))
-
-				// done := make(chan bool)
-				// speaker.Play(beep.Seq(streamer, beep.Callback(func() {
-				// 	done <- true
-				// })))
-
-				// <-done
+				// Usually 44100 or 48000. Other values might cause distortions in Oto
+				op.SampleRate = 44100
+			
+				// Number of channels (aka locations) to play sounds from. Either 1 or 2.
+				// 1 is mono sound, and 2 is stereo (most speakers are stereo). 
+				op.ChannelCount = 2
+			
+				// Format of the source. go-mp3's format is signed 16bit integers.
+				op.Format = oto.FormatSignedInt16LE
+			
+				// Remember that you should **not** create more than one context
+				otoCtx, readyChan, err := oto.NewContext(op)
+				if err != nil {
+					panic("oto.NewContext failed: " + err.Error())
+				}
+				// It might take a bit for the hardware audio devices to be ready, so we wait on the channel.
+				<-readyChan
+			
+				// Create a new 'player' that will handle our sound. Paused by default.
+				player := otoCtx.NewPlayer(decodedMp3)
+				
+				// Play starts playing the sound and returns without waiting for it (Play() is async).
+				player.Play()
+			
+				// We can wait for the sound to finish playing using something like this
+				for player.IsPlaying() {
+					time.Sleep(time.Millisecond)
+				}
+				// Close file only after you finish playing
+				file.Close()
 			} 
 
 		case 3:
