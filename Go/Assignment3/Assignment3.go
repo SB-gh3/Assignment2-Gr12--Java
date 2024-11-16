@@ -57,6 +57,7 @@ func (app Appointment) book(start int, time int){
 				fmt.Println("\nUnavailible:", last, "-", i - 1)
 				last = i
 			}
+			
 			check = app.avail[i]
 		}
 	}
@@ -115,7 +116,7 @@ func getNext(grid [][]int, row int, col int) int{
 func getLoc(grid [][]int, val int) []int{
 	for i := 0; i < len(grid); i++{
 		for j := 0; j < len(grid[i]); j++{
-			if grid[i][j] ==  val{
+			if grid[i][j] == val{
 				loc[0] = i
 				loc[1] = j
 				return loc
@@ -165,7 +166,6 @@ func main(){
 			app.book(30,12)
 			app.book(10, 5)
 			app.book(40,20)
-
 
 		default:
 			fmt.Println("Invalid")

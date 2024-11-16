@@ -116,8 +116,8 @@ fn main()
     io::stdin().read_line(&mut input).expect("Failed to read input");
     let choice : u8 = input.trim().parse().expect("Invalid input");
     input.clear();
-    //let vec = vec![vec![10, 30, 20, 0], vec![0, 20, 30, 10], vec![30, 0, 10, 20], vec![20, 10, 0, 30]];
-    let vec = vec![vec![1, 2], vec![1, 2]];
+    let vec = vec![vec![10, 30, 20, 0], vec![0, 20, 30, 10], vec![30, 0, 10, 20], vec![20, 10, 0, 30]];
+    //let vec = vec![vec![1, 2], vec![1, 2]];
     let light = vec![0.3, 0.7, 0.8, 0.4, 1.4, 1.1, 0.2, 0.5, 0.1, 1.6, 0.6, 0.9];
     let star: StarryNight = StarryNight;
 
