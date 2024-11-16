@@ -11,11 +11,10 @@ class StarryNight //Translated from Rust
         }
 
         ArrayList<ArrayList<Double>> lightf = new ArrayList<>();
-        ArrayList<Double> arr = new ArrayList<>();
 
         for (int i = 0; i < col; i++)
         {
-            lightf.add(arr);
+            lightf.add(new ArrayList<>());
         }
 
         for (int i = 0; i < lighti.length; i++)
