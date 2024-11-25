@@ -1,6 +1,6 @@
 use std::io;
 use rand::Rng;
-use std::io::BufReader;
+//use std::io::BufReader;
 
 struct ArrayTester;
 impl ArrayTester
@@ -220,13 +220,13 @@ fn main()
             // // so we need to keep the main thread alive while it's playing.
             // std::thread::sleep(std::time::Duration::from_secs(7));
 
-            let (_stream, handle) = rodio::OutputStream::try_default().unwrap();
-            let sink = rodio::Sink::try_new(&handle).unwrap();
+            // let (_stream, handle) = rodio::OutputStream::try_default().unwrap();
+            // let sink = rodio::Sink::try_new(&handle).unwrap();
 
-            let file = std::fs::File::open("./tf.mp3").unwrap();
-            sink.append(rodio::Decoder::new(BufReader::new(file)).unwrap());
+            // let file = std::fs::File::open("./tf.mp3").unwrap();
+            // sink.append(rodio::Decoder::new(BufReader::new(file)).unwrap());
 
-            sink.sleep_until_end();
+            // sink.sleep_until_end();
         }
         else
         {
