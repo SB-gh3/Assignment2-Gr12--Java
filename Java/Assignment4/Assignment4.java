@@ -37,7 +37,7 @@ class StepTracker //Translated from Rust
 
     public double average_steps()
     {
-        return this.total_steps / this.total_days;
+        return (double)this.total_steps / (double)this.total_days;
     }
 }
 
@@ -176,7 +176,7 @@ public class Assignment4
         {
             board.add(new ArrayList<>());
 
-            for (int j = 0; j < num_col; ++i)
+            for (int j = 0; j < num_col; ++j)
             {
                 board.get(i).add(false);
             }
