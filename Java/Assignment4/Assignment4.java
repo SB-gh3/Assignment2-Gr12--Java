@@ -241,7 +241,7 @@ public class Assignment4
                 StringChecker check = new StringChecker("pass", 5, 8);
                 System.out.println(check.isValid("password") + "\n" + check.isValid("grapefruit"));
                 StringChecker checko = new StringChecker("glub");
-                System.out.println(checko.isValid("flubglub") + "\n" + checko.isValid("hello"));
+                System.out.println(checko.isValid("flubglub") + "\n" + checko.isValid("hello there"));
             }
 
             case 5 ->
